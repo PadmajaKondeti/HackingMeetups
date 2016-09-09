@@ -21,9 +21,8 @@ app.use(bodyParser.urlencoded({
 // make public a static dir
 app.use(express.static('public'));
 
-
 // Database configuration with mongoose
-mongoose.connect('mongodb://localhost/newsapp');
+mongoose.connect('mongodb://localhost/meetupsdb');
 var db = mongoose.connection;
 
 // show any mongoose errors
@@ -53,19 +52,24 @@ app.get('/', function(req, res) {
 // A GET request to scrape the echojs website.
 app.get('/scrape', function(req, res) {
 	// first, we grab the body of the html with request
-  	request('http://www.nj.com/#/0', function(error, response, html) {
+  	request('http://www.meetup.com/topics/hacking/', function(error, response, html) {
 	// then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html); 
 	// now, we grab every div tag, and do the following:
     //document.querySelectorAll(".xs-pb3 .xs-block") I put in the console in website to check\
 
-	$('.fullheadline').each(function(i, element) {
+	$(".gridList-item").each(function(i, element) {
 		// save an empty result object
         var result = {};
         // add the text and href of every link, 
         // and save them as properties of the result obj
-        result.title = $(this).children('a').text();
+        // result.title = $(this).children('a').text();
+        // result.link = $(this).children('a').attr('href');
+        result.title=$(this).find('h4').eq(0).text();
         result.link = $(this).children('a').attr('href');
+        var bg = $(this).children('a').css('background-image');
+        bg = bg.replace('url(','').replace(')','').replace(/\"/gi, "");
+		result.image=bg;
 		// using our Article model, create a new entry.
 		// Notice the (result):
 		// This effectively passes the result object to the entry (and the title and link)

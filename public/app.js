@@ -19,7 +19,10 @@ $(document).on('ready', function (){
     },
     showArticle: function() {
       // Display the current Article
-      var heading = "<p data-id='" + this.articles[this.currentArticle]._id + "'> "+ this.articles[this.currentArticle].title +"  </p>";
+      var heading = "<p data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
+     // + this.articles[this.currentArticle].image +"'> "
+                    + this.articles[this.currentArticle].title + // this.articles[this.currentArticle].image + "</p>";
+                   + "<img src ='" + this.articles[this.currentArticle].image +"' /> </p>";
       console.log(heading);
       $('#article').html(heading);
       //debugger;
@@ -51,7 +54,7 @@ $(document).on('ready', function (){
     .done(function( data ) {
       console.log(data);
       // the title of the article
-      $('#notes').append('<h2>' + data.title + '</h2>'); 
+      $('#notes').append('<h2><a href="' +data.link+ '">'+ data.title + '</a> </h2>'); 
       // an input to enter a new title
       $('#notes').append('<input id="titleinput" name="title" >'); 
       // a textarea to add a new note body
