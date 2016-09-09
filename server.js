@@ -53,54 +53,36 @@ app.get('/', function(req, res) {
 // A GET request to scrape the echojs website.
 app.get('/scrape', function(req, res) {
 	// first, we grab the body of the html with request
-  //request('https://www.buzzfeed.com/news/', function(error, response, body) {
-	request('http://www.nj.com/#/0', function(error, response, body) {
-
-		//console.log(body);
-
-	//res.send(body);
-  	// then, we load that into cheerio and save it to $ for a shorthand selector
-    
-    var $ = cheerio.load(body); 
-
-    //console.log(body);
-
-    //var title = $('title').text(); 
-    // now, we grab every div tag, and do the following:
+  	request('http://www.nj.com/#/0', function(error, response, html) {
+	// then, we load that into cheerio and save it to $ for a shorthand selector
+    var $ = cheerio.load(html); 
+	// now, we grab every div tag, and do the following:
     //document.querySelectorAll(".xs-pb3 .xs-block") I put in the console in website to check\
 
+	$('.fullheadline').each(function(i, element) {
+		// save an empty result object
+        var result = {};
+        // add the text and href of every link, 
+        // and save them as properties of the result obj
+        result.title = $(this).children('a').text();
+        result.link = $(this).children('a').attr('href');
+		// using our Article model, create a new entry.
+		// Notice the (result):
+		// This effectively passes the result object to the entry (and the title and link)
+		var entry = new Article(result);
+		console.log(result);
 
-		$('.fullheadline').each(function(i, element) {
-
-       //console.log('river-container ul li');
-           // save an empty result object
-                var result = {};
-
-                // add the text and href of every link, 
-                // and save them as properties of the result obj
-                result.title = $(this).children('a').text();
-                result.link = $(this).children('a').attr('href');
-
-			//	console.log(result.title + " " + result.link);
-
-				// using our Article model, create a new entry.
-				// Notice the (result):
-				// This effectively passes the result object to the entry (and the title and link)
-				var entry = new Article(result);
-
-				// now, save that entry to the db
-				entry.save(function(err, doc) {
-					// log any errors
-				  if (err) {
-				    console.log(err);
-				  } 
-				  // or log the doc
-				  else {
-				    console.log(doc);
-				  }
-				}); 
-
-
+		// now, save that entry to the db
+		entry.save(function(err, doc) {
+			// log any errors
+		  if (err) {
+		    console.log(err);
+		  } 
+		  // or log the doc
+		  else {
+		    console.log(doc);
+		  }
+		}); 
     });
     
   });
@@ -143,7 +125,6 @@ app.get('/articles/:id', function(req, res){
 	});
 });
 
-
 // replace the existing note of an article with a new one
 // or if no note exists for an article, make the posted note it's note.
 app.post('/articles/:id', function(req, res){
@@ -174,62 +155,31 @@ app.post('/articles/:id', function(req, res){
 			});
 		}
 	});
-});
-
-
-
-                         
+});                   
 //delete the note from both collections (article and notes)
 app.post('/delete/:id', function(req, res){
-			Article.find({'_id': req.params.id}, 'note', function(err,doc){
-			// .exec(function(err, doc){
-				if (err){
-					console.log(err);
-				}
-				//deletes the note from the Notes Collection
-					Note.find({'_id' : doc[0].note}).remove().exec(function(err,doc){
-						if (err){
-							console.log(err);
-						}
-
-					});
-				
-			});
-			//deletes the note reference in the article document
-			Article.findOneAndUpdate({'_id': req.params.id}, {$unset : {'note':1}})
-			.exec(function(err, doc){
-				if (err){
-					console.log(err);
-				} else {
-					res.send(doc);
-				}
-			});
+	Article.find({'_id': req.params.id}, 'note', function(err,doc){
+	// .exec(function(err, doc){
+		if (err){
+			console.log(err);
+		}
+		//deletes the note from the Notes Collection
+		Note.find({'_id' : doc[0].note}).remove().exec(function(err,doc){
+			if (err){
+				console.log(err);
+			}
+		});	
+	});
+	//deletes the note reference in the article document
+	Article.findOneAndUpdate({'_id': req.params.id}, {$unset : {'note':1}})
+	.exec(function(err, doc){
+		if (err){
+			console.log(err);
+		} else {
+			res.send(doc);
+		}
+	});
 });
-
-/*
-// Delete One from the DB
-app.get('/delete/:id', function(req, res) {
-  // remove a note using the objectID
-  db.notes.remove({
-    "_id": mongojs.ObjectID(req.params.id)
-  }, function(err, removed) {
-    // log any errors from mongojs
-    if (err) {
-      console.log(err);
-			res.send(err);
-    } 
-    // otherwise, send the mongojs response to the browser.
-    // this will fire off the success function of the ajax request
-    else {
-      console.log(removed);
-      res.send(removed);
-    }
-  });
-});
-*/
-
-
-
 
 // listen on port 3000
 app.listen(3000, function() {
