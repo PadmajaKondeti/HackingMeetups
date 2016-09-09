@@ -56,7 +56,6 @@ app.get('/scrape', function(req, res) {
   	// then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // now, we grab every h2 within an armost-read'ticle tag, and do the following:
-
     $('.fullheadline').each(function(i, element) {
     	
     		// save an empty result object
@@ -160,7 +159,44 @@ app.post('/articles/:id', function(req, res){
 	});
 });
 
+// // Delete One from the DB
+// app.post('/delete/:id', function(req, res) {
+//   // remove a note using the objectID
+//   db.notes.remove({
+//     "_id": mongojs.ObjectID(req.params.id)
+//   }, function(err, removed) {
+//     // log any errors from mongojs
+//     if (err) {
+//       console.log(err);
+// 			res.send(err);
+//     } 
+//     // otherwise, send the mongojs response to the browser.
+//     // this will fire off the success function of the ajax request
+//     else {
+//       console.log(removed);
+//       res.send(removed);
+//     }
+//   });
+// });
 
+
+// //Clear the DB
+// app.post('/clearall', function(req, res) {
+//   // remove every note from the notes collection
+// 	db.notes.remove({}, function(err, response){
+//     // log any errors to the console
+// 		if (err){
+// 			console.log(err);
+// 			res.send(err);
+// 		} 
+//     // otherwise, send the mongojs response to the browser.
+//     // this will fire off the success function of the ajax request
+//     else {
+// 			console.log(response);
+// 			res.send(response);
+// 		}
+// 	});
+// });
 
 
 
