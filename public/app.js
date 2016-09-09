@@ -1,37 +1,64 @@
 // grab the articles as a json
+$(document).on('ready', function (){
 
- var BRNewsApp={
-  articleList:[],
-  currentArticle:0,
+var BRNewsApp = {
+  // Attributes
+  articles: [],
+  currArticle: 0,
+
+  // Methods
   start: function() {
-    debugger
-    var self= this;
-    $.getJSON('/articles', function(data) {
-      self.articleList = data;
+    // grab the articles as a json
+    // display the first article
+    var self = this;
+
+  $.getJSON('/articles', function(data) {
+
+    self.articles = data;
+    // for each one
+
+    /*
+    for (var i = 0; i<data.length; i++){
+      // display the apropos information on the page
+      $('#articles').append('<p data-id="' + data[i]._id + '">'+ data[i].title + '<br />'+ data[i].link + '</p>');
+    */
       self.displayArticle();
     });
   },
-  displayArticle: function() {
-    //display the apropos information on the page
-    var heading = "<h3>"+this.articleList[this.currentArticle].title +"<img src='http://image.nj.com/home/njo-media/width180/img/centraljersey_impact/photo/21071618-standard.jpg'>"
-    $('#articles').html(heading)
-    //$('#articles').append('<p data-id="' + this.BRNewsApp[this.currentArticle]._id + '">'+ this.BRNewsApp[this.currentArticle].title + '<br />'+ this.BRNewsApp[this.currentArticle].link + '</p>');
-   },
-    nextArticle: function(){
-       this.currentArticle = this.currentArticle == this.articleList.length ? 0  :
-       this.currentArticle +1;
-      this.displayArticle();
-    }
-};
-  // whenever someone clicks a p tag
-$(document).ready(function() {
-debugger
 
-  $(document).on('click', 'p', function(){
+  displayArticle: function() {
+    // Display the current Article
+
+// <p data-id="' + this.BRNewsApp[this.currentArticle]._id + '">  title and link
+  
+    var heading = "<p data-id='" + this.articles[this.currArticle]._id + "'> "+ this.articles[this.currArticle].title +"  </p>";
+
+    console.log(heading);
+    $('#article').html(heading);
+    //debugger;
+    BRnotes(this.articles[this.currArticle]._id);
+  },
+
+  nextArticle: function() {
+    // Display the next article.  If there are no
+    // more articles, start at the beginning
+    this.currArticle = this.currArticle == this.articles.length ?
+      0 : this.currArticle + 1;
+
+    this.displayArticle();
+  }
+}
+
+  // whenever someone clicks a p tag
+  //$(document).on('click', 'p', function(){
+    var BRnotes = function(data_id) {
+     // debugger;
     // empty the notes from the note section
     $('#notes').empty();
     // save the id from the p tag
-    var thisId = $(this).attr('data-id');
+    //var thisId = $().attr('data-id');
+//this
+     var thisId = data_id;
 
     // now make an ajax call for the Article
     $.ajax({
@@ -49,16 +76,22 @@ debugger
         $('#notes').append('<textarea id="bodyinput" name="body"></textarea>'); 
         // a button to submit a new note, with the id of the article saved to it
         $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
+        
 
+          //debugger;
         // if there's a note in the article
         if(data.note){
           // place the title of the note in the title input
           $('#titleinput').val(data.note.title);
           // place the body of the note in the body textarea
           $('#bodyinput').val(data.note.body);
+
+          //for delete
+            $('#notes').append('<button data-id="' + data._id + '" id="deleteNote">Delete Note</button>');
         }
       });
-  });
+    };
+  //});
 
   // when you click the savenote button
   $(document).on('click', '#savenote', function(){
@@ -87,26 +120,53 @@ debugger
     $('#bodyinput').val("");
   });
 
-// // when the #clearall button is pressed
-// $('#clearall').on('click', function(){
-//   // make an AJAX GET request to delete the notes from the db
-//   $.ajax({
-//     type: "GET",
-//     dataType: "json",
-//     url: '/clearall',
-//     // on a successful call, clear the #results section
-//     success: function(response){
-//       $('#results').empty();
-//     }
-//   });
-// });
-// when you click the StartNews button
-  $(document).on('click', '#startNews', function(){
-    alert('ff')
-    debugger;
-    BRNewsApp.start();
+
+// when user clicks the deleter button for a note
+$(document).on('click', '#deleteNote', function(){
+  // save the p tag that encloses the button
+   //var selected = $(this).parent();
+   var selected = $(this).attr('data-id');
+   //var thisId = $(this).attr('data-id');
+
+   console.log(selected);
+  // make an AJAX GET request to delete the specific note 
+  // this uses the data-id of the p-tag, which is linked to the specific note
+  $.ajax({
+    type: "POST",
+    url: '/delete/' + selected
+  })
+
+  // Code to run if the request succeeds (is done);
+  // The response is passed to the function
+    .done(function( data ) {
+       selected.remove();
+      
+      // make sure the #actionbutton is submit (in case it's update)
+      //$('#actionbutton').html('<button id="makenew">Delete</button>');
+    })//,
+    .fail(function( xhr, status, errorThrown ) {
+      alert( "Sorry, there was a problem!" );
+      console.log( "Error: " + errorThrown );
+      console.log( "Status: " + status );
+      console.dir( xhr );
+    })
+    // Also, remove the values entered in the input and textarea for note entry
+     $('#titleinput').val("");
+     $('#bodyinput').val("");
   });
-  $(document).on('click', '#articles', function(){
-    BRNewsApp.nextArticle();
-  });
+//});
+
+// when you click the savenote button
+$(document).on('click', '#startnews', function(){
+
+  BRNewsApp.start();
+});
+
+
+$(document).on('click', '#article', function(){
+ // alert('uuu');
+//debugger;
+  BRNewsApp.nextArticle();
+});
+
 });
