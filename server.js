@@ -22,7 +22,8 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('public'));
 
 // Database configuration with mongoose
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/meetupsdb');
+var connection = process.env.MONGODB_URI || 'mongodb://localhost/meetupsdb';
+mongoose.connect(connection);
 var db = mongoose.connection;
 
 // show any mongoose errors
