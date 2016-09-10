@@ -73,20 +73,26 @@ app.get('/scrape', function(req, res) {
 		// using our Article model, create a new entry.
 		// Notice the (result):
 		// This effectively passes the result object to the entry (and the title and link)
+		self = this;
 		var entry = new Article(result);
 		console.log(result);
-
-		// now, save that entry to the db
-		entry.save(function(err, doc) {
-			// log any errors
-		  if (err) {
-		    console.log(err);
-		  } 
-		  // or log the doc
-		  else {
-		    console.log(doc);
-		  }
-		}); 
+		Article.count({'title': entry.title}, function (err, count){ 
+          if(count>0){
+              console.log('Already exists!');
+          }else{
+            // now, save that entry to the db
+            entry.save(function(err, doc) {
+              // log any errors
+              if (err) {
+                console.log(err);
+              } 
+              // or log the doc
+              else {
+                console.log(doc);
+              }
+            });
+          }
+        });
     });
     
   });
