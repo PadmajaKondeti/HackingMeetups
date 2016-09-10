@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static('public'));
 
 // Database configuration with mongoose
-mongoose.connect('mongodb://localhost/meetupsdb');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/meetupsdb');
 var db = mongoose.connection;
 
 // show any mongoose errors
