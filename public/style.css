@@ -1,19 +1,31 @@
 body{
-      /*background-color: #DECADE*/
-      background-color: #FCF5C7;
+      /*background-color: #DECADE
+      background-color: #FCF5C7; */
+      background-color: #000000;
+      /*color: #ffffff;*/
 }
-#wrapper{
+/*#wrapper{*/
+.container{
   width:960px;
   margin: 0 auto;
   padding-top: 5%;
+  /*background-image: url('http://www.freedigitalphotos.net/images/category-images/337.jpg')*/
 }
-#articles{
-  width:60%;
-  height:700px;
-  display:inline-block;
-  overflow: auto;
+#article{
+  width:50%;
+  height:50%;
+  background-color: '#000';
+
+  /*display:inline-block;  */
+  overflow: auto; 
 }
-#notes{
+#startnews{
+  float:left;
+}
+#article p{
+  color:'#fff';
+}
+#notes, #notes1 {
   width:30%;
   float:right;
 }

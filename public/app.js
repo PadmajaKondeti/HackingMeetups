@@ -19,12 +19,20 @@ $(document).on('ready', function (){
     },
     showArticle: function() {
       // Display the current Article
+      // var heading = "<div style='background-image: url("+
+      //  this.articles[this.currentArticle].image +
+      // ")' data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
       var heading = "<p data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
+     
      // + this.articles[this.currentArticle].image +"'> "
-                    + this.articles[this.currentArticle].title + // this.articles[this.currentArticle].image + "</p>";
-                   + "<img src ='" + this.articles[this.currentArticle].image +"' /> </p>";
+      + this.articles[this.currentArticle].title //+"</div>" // this.articles[this.currentArticle].image + "</p>";
+      + "<img src ='" + this.articles[this.currentArticle].image +"' /> </p>";
       console.log(heading);
-      $('#article').html(heading);
+       $('#article').html(heading).css({
+         'background-color':'#000',
+        'color': '#fff'
+        
+        });
       //debugger;
       getNotes(this.articles[this.currentArticle]._id);
     },
@@ -54,7 +62,7 @@ $(document).on('ready', function (){
     .done(function( data ) {
       console.log(data);
       // the title of the article
-      $('#notes').append('<h2><a href="' +data.link+ '">'+ data.title + '</a> </h2>'); 
+      $('#notes').append('<h4><a href="' +data.link+ '">'+ data.title + '</a> </h4>'); 
       // an input to enter a new title
       $('#notes').append('<input id="titleinput" name="title" >'); 
       // a textarea to add a new note body
