@@ -16,19 +16,32 @@
   <p><i>Event Information</i></p>
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <div id="notes"></div>
+  <div class="row row-centered">
+    <button class="flat-butt flat-primary-butt flat-outer-butt" id="startnews" >Start</button>
+  </div>
+  <br>
+  <div class="row row-centered">
+    <div class="col-sm-3">
+      <div id="notes">
+       <input id="titleinput" name="title" >
+        <textarea id="bodyinput" name="body"></textarea>
+        <br>
+        <button class="flat-butt flat-primary-butt flat-outer-butt" id="savenote">Save Note</button>
+      </div>
     </div>
-    <div class="col-sm-8">
+    <br>
+    <div class="col-sm-6 articleholder">
       <div id="article"></div>
     </div>
-    <div class="col-sm-4">
-      <div id="delNotes"></div>
+    <br>
+    <div class="col-sm-3">
+      <div id="delNotes">
+        <input id="titleinput1" name="title" disabled>
+        <textarea id="bodyinput1" name="body" disabled></textarea>
+        <br>
+        <button class="flat-butt flat-danger-butt flat-outer-butt" id="deletenote">Delete Note</button>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <button id="startnews" >Start</button>
   </div>
 </div>
 

@@ -5,7 +5,15 @@ $(document).on('ready', function (){
     // Attributes
     articles: [],
     currentArticle: 0,
-
+    imagesrc:["https://danceswithfat.files.wordpress.com/2011/08/victory.jpg", 
+          "http://s2.quickmeme.com/img/ea/eab5afc4bfb52ccd3656aa60daadafe63fc4b65147a15766b4d43ba96c89f20f.jpg",
+          "https://i.imgflip.com/g3lqz.jpg",
+          "http://s2.quickmeme.com/img/ac/ac449c4293b246b8662ddd0627279fcdaebe2c0d420f8838118235a81f47edc0.jpg",
+          "http://cf.chucklesnetwork.agj.co/items/5/5/9/6/0/one-does-not-simply-declare-victory-but-i-just-did.jpg",
+          "https://s-media-cache-ak0.pinimg.com/736x/e2/16/15/e2161543fb07fbef4f3b8748567fdbb1.jpg",
+          "https://cdn.meme.am/instances/48501883.jpg",
+          "http://www.lambopower.com/forum/uploads/monthly_06_2015/post-51915-1434235449.jpg"
+          ],
     // Methods
     fetchArticle: function() {
       // grab the articles as a json
@@ -22,17 +30,20 @@ $(document).on('ready', function (){
       // var heading = "<div style='background-image: url("+
       //  this.articles[this.currentArticle].image +
       // ")' data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
-      var heading = "<p data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
-     
+      var showimage=this.articles[this.currentArticle].image;
+    
+      if (showimage.indexOf('/img/journey/simple/no_photo') >= 0){
+            showimage = this.imagesrc[Math.floor(Math.random() * (this.imagesrc).length)];
+      };
+      var heading = "<div data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
+
      // + this.articles[this.currentArticle].image +"'> "
-      + this.articles[this.currentArticle].title //+"</div>" // this.articles[this.currentArticle].image + "</p>";
-      + "<img src ='" + this.articles[this.currentArticle].image +"' /> </p>";
+      + '<h4>'+this.articles[this.currentArticle].title +'</h4>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
+      + "<img class='img-thumbnail' alt='article image' width='354' height='236' src ='" + showimage +"' /> </div>";
       console.log(heading);
-       $('#article').html(heading).css({
-         'background-color':'#000',
-        'color': '#fff'
-        
-        });
+      $('#savenote').attr('data-id', this.articles[this.currentArticle]._id);
+      $('#deletenote').attr('data-id', this.articles[this.currentArticle]._id);
+      $('#article').html(heading);
       //debugger;
       getNotes(this.articles[this.currentArticle]._id);
     },
@@ -43,15 +54,18 @@ $(document).on('ready', function (){
         0 : this.currentArticle + 1;
       this.showArticle();
     }
-  }
+  };
+
   // whenever someone clicks a p tag
   var getNotes = function(data_id) {
     // empty the notes from the note section
-    $('#notes').empty();
+    //$('#notes').empty();
     // save the id from the p tag
-    //var thisId = $().attr('data-id');
+    //var thisId = $(p).attr('data-id');
     //this
      var thisId = data_id;
+    $('#titleinput1').val("");
+    $('#bodyinput1').val("");
 
     // now make an ajax call for the Article
     $.ajax({
@@ -59,25 +73,48 @@ $(document).on('ready', function (){
       url: "/articles/" + thisId,
     })
     // with that done, add the note information to the page
+    // .done(function( data ) {
+    //   console.log(data);
+    //   // the title of the article
+    //   $('#notes').append('<h4><a href="' +data.link+ '">'+ data.title + '</a> </h4>'); 
+    //   // an input to enter a new title
+    //   $('#notes').append('<input id="titleinput" name="title" >'); 
+    //   // a textarea to add a new note body
+    //   $('#notes').append('<textarea id="bodyinput" name="body"></textarea>'); 
+    //   // a button to submit a new note, with the id of the article saved to it
+    //   $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
+    //   // if there's a note in the article
+    //   if(data.note){
+    //     // place the title of the note in the title input
+    //     $('#titleinput').val(data.note.title);
+    //     // place the body of the note in the body textarea
+    //     $('#bodyinput').val(data.note.body);
+
+    //     //for delete
+    //       $('#notes').append('<button data-id="' + data._id + '" id="deleteNote">Delete Note</button>');
+    //   }
+    // });
+    // with that done, add the note information to the page
     .done(function( data ) {
       console.log(data);
       // the title of the article
-      $('#notes').append('<h4><a href="' +data.link+ '">'+ data.title + '</a> </h4>'); 
+      //$('#notes').append('<h4><a href="' +data.link+ '">'+ data.title + '</a> </h4>'); 
       // an input to enter a new title
-      $('#notes').append('<input id="titleinput" name="title" >'); 
+      //$('#notes').append('<input id="titleinput" name="title" >'); 
       // a textarea to add a new note body
-      $('#notes').append('<textarea id="bodyinput" name="body"></textarea>'); 
+     // $('#notes').append('<textarea id="bodyinput" name="body"></textarea>'); 
       // a button to submit a new note, with the id of the article saved to it
-      $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
+     // $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
       // if there's a note in the article
       if(data.note){
         // place the title of the note in the title input
-        $('#titleinput').val(data.note.title);
+        $('#titleinput1').val(data.note.title);
         // place the body of the note in the body textarea
-        $('#bodyinput').val(data.note.body);
+        $('#bodyinput1').val(data.note.body);
+        //$('#savenote').val(data._id);
 
         //for delete
-          $('#notes').append('<button data-id="' + data._id + '" id="deleteNote">Delete Note</button>');
+         // $('#notes').append('<button data-id="' + data._id + '" id="deleteNote">Delete Note</button>');
       }
     });
   };
@@ -99,16 +136,20 @@ $(document).on('ready', function (){
       // log the response
       console.log(data);
       // empty the notes section
-      $('#notes').empty();
+      //$('#notes').empty();
     });
     // Also, remove the values entered in the input and textarea for note entry
+    $('#titleinput1').val($('#titleinput').val());
+    $('#bodyinput1').val($('#bodyinput').val());
     $('#titleinput').val("");
     $('#bodyinput').val("");
   });
 // when user clicks the deleter button for a note
-$(document).on('click', '#deleteNote', function(){
+$(document).on('click', '#deletenote', function(){
   // save the p tag that encloses the button
-  var selected = $(this).attr('data-id');
+ var selected = $(this).attr('data-id');
+ debugger
+ // var selected = $(this).parent();
   console.log(selected);
   // make an AJAX GET request to delete the specific note 
   // this uses the data-id of the p-tag, which is linked to the specific note
@@ -119,7 +160,8 @@ $(document).on('click', '#deleteNote', function(){
   // Code to run if the request succeeds (is done);
   // The response is passed to the function
   .done(function( data ) {
-     selected.remove();
+     //selected.remove();
+     $(this).attr('data-id','');
   })//,
   .fail(function( xhr, status, errorThrown ) {
     alert( "Sorry, there was a problem!" );
@@ -130,14 +172,18 @@ $(document).on('click', '#deleteNote', function(){
   // Also, remove the values entered in the input and textarea for note entry
    $('#titleinput').val("");
    $('#bodyinput').val("");
+  $('#titleinput1').val("");
+   $('#bodyinput1').val("");
 });
 
 // when you click the savenote button
 $(document).on('click', '#startnews', function(){
   getArticles.fetchArticle();
+  $(this).hide();
+  
 });
 $(document).on('click', '#article', function(){
   getArticles.nextArticle();
 });
-
+//photo credit: <a href="http://www.flickr.com/photos/63315386@N06/16962597158">DSC_1294</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by-nc/2.0/">(license)</a>
 });
