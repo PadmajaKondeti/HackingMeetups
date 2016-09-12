@@ -12,7 +12,7 @@ $(document).on('ready', function (){
           "http://cf.chucklesnetwork.agj.co/items/5/5/9/6/0/one-does-not-simply-declare-victory-but-i-just-did.jpg",
           "https://s-media-cache-ak0.pinimg.com/736x/e2/16/15/e2161543fb07fbef4f3b8748567fdbb1.jpg",
           "https://cdn.meme.am/instances/48501883.jpg",
-          "http://www.lambopower.com/forum/uploads/monthly_06_2015/post-51915-1434235449.jpg"
+          "http://lambopower.com/forum/uploads/monthly_06_2015/post-51915-1434235449.jpg"
           ],
     // Methods
     fetchArticle: function() {
@@ -25,21 +25,20 @@ $(document).on('ready', function (){
           self.showArticle();
       });
     },
-    //Scrape article
-    scrapeArticle: function() {
-      // grab the articles as a json
-      // display the first article
-     // debugger
-      var self = this;
-      $.getJSON('/scrape', function(data) {
-          //self.articles = data;
-          // for each one
-          //self.showArticle();
-      })
-      .done(function( data ) {
-          console.log("scraped data");
-      });
-    },
+    // //Scrape article
+    // scrapeArticle: function() {
+    //   // grab the articles as a json
+    //   // display the first article
+    //   var self = this;
+    //   $.getJSON('/scrape', function(data) {
+    //       //self.articles = data;
+    //       // for each one
+    //       //self.showArticle();
+    //   })
+    //   .done(function( data ) {
+    //       console.log("scraped data");
+    //   });
+    // },
     showArticle: function() {
       // Display the current Article
       // var heading = "<div style='background-image: url("+
@@ -54,8 +53,9 @@ $(document).on('ready', function (){
 
      // + this.articles[this.currentArticle].image +"'> "
       + '<h4>'+this.articles[this.currentArticle].title +'</h4>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
-      + "<img class='img-thumbnail' alt='article image' width='354' height='236' src ='" + showimage +"' /> </div>";
+      + "<img style='height: 100%; width: 100%; object-fit: contain' class='img-rounded' alt='article image' src ='" + showimage +"' /> </div>";
       console.log(heading);
+      $('#articleLink').html('<h2><a target="_blank" href="'+this.articles[this.currentArticle].link+'">' +this.articles[this.currentArticle].title+'</h2>' );
       $('#savenote').attr('data-id', this.articles[this.currentArticle]._id);
       $('#deletenote').attr('data-id', this.articles[this.currentArticle]._id);
       $('#article').html(heading);
@@ -126,6 +126,7 @@ $(document).on('ready', function (){
         $('#titleinput1').val(data.note.title);
         // place the body of the note in the body textarea
         $('#bodyinput1').val(data.note.body);
+
         //$('#savenote').val(data._id);
 
         //for delete
@@ -159,49 +160,48 @@ $(document).on('ready', function (){
     $('#titleinput').val("");
     $('#bodyinput').val("");
   });
-// when user clicks the deleter button for a note
-$(document).on('click', '#deletenote', function(){
-  // save the p tag that encloses the button
- var selected = $(this).attr('data-id');
- debugger
- // var selected = $(this).parent();
-  console.log(selected);
-  // make an AJAX GET request to delete the specific note 
-  // this uses the data-id of the p-tag, which is linked to the specific note
-  $.ajax({
-    type: "POST",
-    url: '/delete/' + selected
-  })
-  // Code to run if the request succeeds (is done);
-  // The response is passed to the function
-  .done(function( data ) {
-     //selected.remove();
-     $(this).attr('data-id','');
-  })//,
-  .fail(function( xhr, status, errorThrown ) {
-    alert( "Sorry, there was a problem!" );
-    console.log( "Error: " + errorThrown );
-    console.log( "Status: " + status );
-    console.dir( xhr );
-  })
-  // Also, remove the values entered in the input and textarea for note entry
-   $('#titleinput').val("");
-   $('#bodyinput').val("");
-  $('#titleinput1').val("");
-   $('#bodyinput1').val("");
-});
+  // when user clicks the deleter button for a note
+  $(document).on('click', '#deletenote', function(){
+    // save the p tag that encloses the button
+   var selected = $(this).attr('data-id');
+   debugger
+   // var selected = $(this).parent();
+    console.log(selected);
+    // make an AJAX GET request to delete the specific note 
+    // this uses the data-id of the p-tag, which is linked to the specific note
+    $.ajax({
+      type: "POST",
+      url: '/delete/' + selected
+    })
+    // Code to run if the request succeeds (is done);
+    // The response is passed to the function
+    .done(function( data ) {
+       //selected.remove();
+       $(this).attr('data-id','');
+    })//,
+    .fail(function( xhr, status, errorThrown ) {
+      alert( "Sorry, there was a problem!" );
+      console.log( "Error: " + errorThrown );
+      console.log( "Status: " + status );
+      console.dir( xhr );
+    })
+    // Also, remove the values entered in the input and textarea for note entry
+     $('#titleinput').val("");
+     $('#bodyinput').val("");
+    $('#titleinput1').val("");
+     $('#bodyinput1').val("");
+  });
 
-// when you click the savenote button
-$(document).on('click', '#startScrape', function(){
-  getArticles.scrapeArticle();
-});
-$(document).on('click', '#startNews', function(){
-  getArticles.fetchArticle();
-  $(this).hide();
-  
-});
-$(document).on('click', '#article', function(){
-  getArticles.nextArticle();
-});
-//photo credit: <a href="http://www.flickr.com/photos/63315386@N06/16962597158">DSC_1294</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by-nc/2.0/">(license)</a>
+  // when you click the savenote button
+  // $(document).on('click', '#startScrape', function(){
+  //   getArticles.scrapeArticle();
+  // });
+  $(document).on('click', '#startNews', function(){ 
+    $("#articleContainer").css('visibility', 'visible');
+    getArticles.fetchArticle();
+    $(this).hide();
+  });
+  $(document).on('click', '#article', function(){
+    getArticles.nextArticle();
+  });
 });

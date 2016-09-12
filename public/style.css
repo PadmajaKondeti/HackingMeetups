@@ -34,7 +34,8 @@ body{
 textarea, input{
   display:block;
   width:100%;
-  background-color: #FCF5C7;
+  /*background-color: #FCF5C7;*/
+  background-color: #eee; 
 }
 input{
   height:36px;
@@ -45,16 +46,22 @@ textarea{
   font-size: 18px;
 }
 #titleinput1, #bodyinput1{
-   background-color: #D3D3D3;
+   background-color: #a9a9a9;
 }
 #articles {
 	float:left;
 }
-
+#articleContainer{
+  visibility:hidden;
+}
 #notes {
 	float: left;
-	/*border-color: black; 
-	border-style: solid;*/
+	
+	/*border-style: solid;*/
+}
+#articleLink{
+  text-align: center;
+  color:#eee;
 }
 .flat-butt {
   display: inline-block;
@@ -98,12 +105,10 @@ textarea{
 .hide{
 display:none;
 }
-
 .show{
 display:block;
 }
 .articleholder{
-   height:336px;
-   background-color: #FCF5C7;
-
+   border: 1px solid #eee;
+   padding:10px;
 }

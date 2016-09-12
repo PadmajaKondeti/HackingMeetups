@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Hacking Meetups</title>
   <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -19,33 +19,29 @@
     <button class="flat-butt flat-primary-butt flat-outer-butt" id="startNews" >Start</button>
   </div>
   <br>
-  <div class="row row-centered">
+  <div id="articleContainer" class="row row-centered ">
+    <div id="articleLink"></div>
+    <br>
     <div class="col-sm-3">
       <div id="notes">
        <input id="titleinput" name="title" >
         <textarea id="bodyinput" name="body"></textarea>
-        <br>
-        <button class="flat-butt flat-primary-butt flat-outer-butt" id="savenote">Save Note</button>
+        <input  type="button" class="flat-butt flat-primary-butt flat-outer-butt" id="savenote" value= "Save Note">
       </div>
     </div>
-    <br>
+   
     <div class="col-sm-6 articleholder">
       <div id="article"></div>
     </div>
-    <br>
+  
     <div class="col-sm-3">
       <div id="delNotes">
         <input id="titleinput1" name="title" disabled>
         <textarea id="bodyinput1" name="body" disabled></textarea>
-        <br>
-        <button class="flat-butt flat-danger-butt flat-outer-butt" id="deletenote">Delete Note</button>
+        <input  type="button" class="flat-butt flat-danger-butt flat-outer-butt" id="deletenote" value="Delete Note" >
       </div>
     </div>
   </div>
-
-  <!-- <div class="row">
-    <button id="startScrape">Start Scrape</button>
-  </div> -->
 </div>
 <script src="app.js"></script>
 </body>
