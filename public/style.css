@@ -8,8 +8,16 @@ body{
 .container{
   width:960px;
   margin: 0 auto;
-  padding-top: 5%;
+  
   /*background-image: url('http://www.freedigitalphotos.net/images/category-images/337.jpg')*/
+}
+.text-color{
+  color: #eee; 
+}
+.scrapeShow{
+  border:none;
+  background-color: #000;
+  color:#eee;
 }
 #article{
   /*width:50%;
@@ -34,8 +42,8 @@ body{
 textarea, input{
   display:block;
   width:100%;
-  /*background-color: #FCF5C7;*/
-  background-color: #eee; 
+  background-color: #FCF5C7;
+  /*background-color: #eee; */
 }
 input{
   height:36px;
@@ -46,7 +54,7 @@ textarea{
   font-size: 18px;
 }
 #titleinput1, #bodyinput1{
-   background-color: #a9a9a9;
+   background-color: #eee;
 }
 #articles {
 	float:left;

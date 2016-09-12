@@ -19,26 +19,27 @@ $(document).on('ready', function (){
       // grab the articles as a json
       // display the first article
       var self = this;
+      debugger
       $.getJSON('/articles', function(data) {
           self.articles = data;
           // for each one
           self.showArticle();
       });
     },
-    // //Scrape article
-    // scrapeArticle: function() {
-    //   // grab the articles as a json
-    //   // display the first article
-    //   var self = this;
-    //   $.getJSON('/scrape', function(data) {
-    //       //self.articles = data;
-    //       // for each one
-    //       //self.showArticle();
-    //   })
-    //   .done(function( data ) {
-    //       console.log("scraped data");
-    //   });
-    // },
+    //Scrape article
+    scrapeArticle: function() {
+      // grab the articles as a json
+      // display the first article
+      var self = this;
+      $.getJSON('/scrape', function(data) {
+          //self.articles = data;
+          // for each one
+      })
+      .done(function( data ) {
+          //self.fetchArticle();
+          console.log("scraped data");
+      });
+    },
     showArticle: function() {
       // Display the current Article
       // var heading = "<div style='background-image: url("+
@@ -193,13 +194,15 @@ $(document).on('ready', function (){
   });
 
   // when you click the savenote button
-  // $(document).on('click', '#startScrape', function(){
-  //   getArticles.scrapeArticle();
-  // });
-  $(document).on('click', '#startNews', function(){ 
-    $("#articleContainer").css('visibility', 'visible');
-    getArticles.fetchArticle();
+  $(document).on('click', '#startScrape', function(){
+    getArticles.scrapeArticle();
     $(this).hide();
+  });
+  $(document).on('click', '#startNews', function(){
+    $("#articleContainer").css('visibility', 'visible');
+   // getArticles.scrapeArticle(); 
+    getArticles.fetchArticle();
+    $(".scrapeShow").hide();
   });
   $(document).on('click', '#article', function(){
     getArticles.nextArticle();
