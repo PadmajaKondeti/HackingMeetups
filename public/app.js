@@ -19,7 +19,6 @@ $(document).on('ready', function (){
       // grab the articles as a json
       // display the first article
       var self = this;
-      debugger
       $.getJSON('/articles', function(data) {
           self.articles = data;
           // for each one
@@ -42,9 +41,6 @@ $(document).on('ready', function (){
     },
     showArticle: function() {
       // Display the current Article
-      // var heading = "<div style='background-image: url("+
-      //  this.articles[this.currentArticle].image +
-      // ")' data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
       var showimage=this.articles[this.currentArticle].image;
     
       if (showimage.indexOf('/img/journey/simple/no_photo') >= 0){
@@ -60,7 +56,6 @@ $(document).on('ready', function (){
       $('#savenote').attr('data-id', this.articles[this.currentArticle]._id);
       $('#deletenote').attr('data-id', this.articles[this.currentArticle]._id);
       $('#article').html(heading);
-      //debugger;
       getNotes(this.articles[this.currentArticle]._id);
     },
     nextArticle: function() {
@@ -89,38 +84,9 @@ $(document).on('ready', function (){
       url: "/articles/" + thisId,
     })
     // with that done, add the note information to the page
-    // .done(function( data ) {
-    //   console.log(data);
-    //   // the title of the article
-    //   $('#notes').append('<h4><a href="' +data.link+ '">'+ data.title + '</a> </h4>'); 
-    //   // an input to enter a new title
-    //   $('#notes').append('<input id="titleinput" name="title" >'); 
-    //   // a textarea to add a new note body
-    //   $('#notes').append('<textarea id="bodyinput" name="body"></textarea>'); 
-    //   // a button to submit a new note, with the id of the article saved to it
-    //   $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
-    //   // if there's a note in the article
-    //   if(data.note){
-    //     // place the title of the note in the title input
-    //     $('#titleinput').val(data.note.title);
-    //     // place the body of the note in the body textarea
-    //     $('#bodyinput').val(data.note.body);
-
-    //     //for delete
-    //       $('#notes').append('<button data-id="' + data._id + '" id="deleteNote">Delete Note</button>');
-    //   }
-    // });
-    // with that done, add the note information to the page
     .done(function( data ) {
       console.log(data);
       // the title of the article
-      //$('#notes').append('<h4><a href="' +data.link+ '">'+ data.title + '</a> </h4>'); 
-      // an input to enter a new title
-      //$('#notes').append('<input id="titleinput" name="title" >'); 
-      // a textarea to add a new note body
-     // $('#notes').append('<textarea id="bodyinput" name="body"></textarea>'); 
-      // a button to submit a new note, with the id of the article saved to it
-     // $('#notes').append('<button data-id="' + data._id + '" id="savenote">Save Note</button>');
       // if there's a note in the article
       if(data.note){
         // place the title of the note in the title input
@@ -129,7 +95,6 @@ $(document).on('ready', function (){
         $('#bodyinput1').val(data.note.body);
 
         //$('#savenote').val(data._id);
-
         //for delete
          // $('#notes').append('<button data-id="' + data._id + '" id="deleteNote">Delete Note</button>');
       }
@@ -165,7 +130,6 @@ $(document).on('ready', function (){
   $(document).on('click', '#deletenote', function(){
     // save the p tag that encloses the button
    var selected = $(this).attr('data-id');
-   debugger
    // var selected = $(this).parent();
     console.log(selected);
     // make an AJAX GET request to delete the specific note 
@@ -192,10 +156,10 @@ $(document).on('ready', function (){
     $('#titleinput1').val("");
      $('#bodyinput1').val("");
   });
-
   // when you click the savenote button
   $(document).on('click', '#startScrape', function(){
     getArticles.scrapeArticle();
+    $(".scrapeShow h3").text("View Details")
     $(this).hide();
   });
   $(document).on('click', '#startNews', function(){

@@ -53,6 +53,11 @@ textarea{
   height:200px;
   font-size: 18px;
 }
+
+#notes.panel, #delNotes.panel{
+  
+  text-align: center;
+}
 #titleinput1, #bodyinput1{
    background-color: #eee;
 }
