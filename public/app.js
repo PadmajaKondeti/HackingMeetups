@@ -25,6 +25,21 @@ $(document).on('ready', function (){
           self.showArticle();
       });
     },
+    //Scrape article
+    scrapeArticle: function() {
+      // grab the articles as a json
+      // display the first article
+      debugger
+      var self = this;
+      $.getJSON('/scrape', function(data) {
+          //self.articles = data;
+          // for each one
+          //self.showArticle();
+      })
+      .done(function( data ) {
+          console.log("scraped data");
+      });
+    },
     showArticle: function() {
       // Display the current Article
       // var heading = "<div style='background-image: url("+
@@ -177,7 +192,10 @@ $(document).on('click', '#deletenote', function(){
 });
 
 // when you click the savenote button
-$(document).on('click', '#startnews', function(){
+$(document).on('click', '#startScrape', function(){
+  getArticles.scrapeArticle();
+});
+$(document).on('click', '#startNews', function(){
   getArticles.fetchArticle();
   $(this).hide();
   
