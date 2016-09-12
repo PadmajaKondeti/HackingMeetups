@@ -29,7 +29,7 @@ $(document).on('ready', function (){
     scrapeArticle: function() {
       // grab the articles as a json
       // display the first article
-      debugger
+     // debugger
       var self = this;
       $.getJSON('/scrape', function(data) {
           //self.articles = data;
