@@ -6,7 +6,7 @@ body{
 }
 /*#wrapper{*/
 .container{
-  width:960px;
+ 
   margin: 0 auto;
   
   /*background-image: url('http://www.freedigitalphotos.net/images/category-images/337.jpg')*/
@@ -46,17 +46,20 @@ textarea, input{
   /*background-color: #eee; */
 }
 input{
-  height:36px;
+  /*height:36px;*/
+  height:10%;
   font-size: 24px;
 }
 textarea{
-  height:200px;
+  /*height:200px;*/
+  height:100%;
   font-size: 18px;
 }
 
 #notes.panel, #delNotes.panel{
-  
+  position: relative;
   text-align: center;
+  margin
 }
 #titleinput1, #bodyinput1{
    background-color: #eee;
@@ -66,12 +69,20 @@ textarea{
 }
 #articleContainer{
   visibility:hidden;
+  position:absolute;
+  margin:10px;
 }
 #notes {
-	float: left;
-	
+	float: left;  
+	margin:10px;
 	/*border-style: solid;*/
 }
+#delNotes {
+  /*float: right;   */
+  
+  /*border-style: solid;*/
+}
+#
 #articleLink{
   text-align: center;
   color:#eee;

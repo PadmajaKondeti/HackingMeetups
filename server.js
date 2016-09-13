@@ -13,7 +13,6 @@ var request = require('request');
 var cheerio = require('cheerio');
 
 // use morgan and bodyparser with our app
-//app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
@@ -36,11 +35,9 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
-
 // And we bring in our Note and Article models
 var Note = require('./models/Note.js');
 var Article = require('./models/Article.js');
-
 
 // Routes
 // ======
@@ -55,50 +52,48 @@ app.get('/scrape', function(req, res) {
 	// first, we grab the body of the html with request
   	request('http://www.meetup.com/topics/hacking/', function(error, response, html) {
 	// then, we load that into cheerio and save it to $ for a shorthand selector
-    var $ = cheerio.load(html); 
-	// now, we grab every div tag, and do the following:
-    //document.querySelectorAll(".xs-pb3 .xs-block") I put in the console in website to check\
-
-	$(".gridList-item").each(function(i, element) {
+	    var $ = cheerio.load(html); 
+		// now, we grab every div tag, and do the following:
+		$(".gridList-item").each(function(i, element) {
 		// save an empty result object
-        var result = {};
-        // add the text and href of every link, 
-        // and save them as properties of the result obj
-        // result.title = $(this).children('a').text();
-        // result.link = $(this).children('a').attr('href');
-        result.title=$(this).find('h4').eq(0).text();
-        result.link = $(this).children('a').attr('href');
-        var bg = $(this).children('a').css('background-image');
-        bg = bg.replace('url(','').replace(')','').replace(/\"/gi, "");
-		result.image=bg;
-		// using our Article model, create a new entry.
-		// Notice the (result):
-		// This effectively passes the result object to the entry (and the title and link)
-		self = this;
-		var entry = new Article(result);
-		console.log(result);
-		Article.count({'title': entry.title}, function (err, count){ 
-          if(count>0){
-              console.log('Already exists!');
-          }else{
-            // now, save that entry to the db
-            entry.save(function(err, doc) {
-              // log any errors
-              if (err) {
-                console.log(err);
-              } 
-              // or log the doc
-              else {
-                console.log(doc);
-              }
-            });
-          }
-        });
-    });
-    
-  });
-  // tell the browser that we finished scraping the text.
- res.send("Scrape Complete");
+	        var result = {};
+	        // add the text and href of every link, 
+	        // and save them as properties of the result obj
+	        result.title=$(this).find('h4').eq(0).text();
+	        result.link = $(this).children('a').attr('href');
+	        var bg = $(this).children('a').css('background-image');
+	        bg = bg.replace('url(','').replace(')','').replace(/\"/gi, "");
+			result.image=bg;
+			// using our Article model, create a new entry.
+			// Notice the (result):
+			// This effectively passes the result object to the entry (and the title, link and image)
+			self = this;
+			var entry = new Article(result);
+			console.log(result);
+			//Checking to not to enter duplicate data entries
+			Article.count({'title': entry.title}, function (err, count){ 
+	          if(count>0){
+	              console.log('Already exists!');
+	          }else{
+	            // now, save that entry to the db
+	            entry.save({w:"majority"}, function(err, doc) {
+	              // log any errors
+	              if (err) {
+	                console.log(err);
+	              } 
+	              // or log the doc
+	              else {
+	                console.log(doc);
+	              }
+	            });
+	          }
+	        });
+	        console.log(result.length);
+    	}); 
+    	// tell the browser that we finished scraping the text.
+ 		res.json("Scrape Complete");
+ 	 });
+	
 });
 
 // this will get the articles we scraped from the mongoDB
@@ -115,7 +110,6 @@ app.get('/articles', function(req, res){
 		}
 	});
 });
-
 // grab an article by it's ObjectId
 app.get('/articles/:id', function(req, res){
 	// using the id passed in the id parameter, 
@@ -135,7 +129,6 @@ app.get('/articles/:id', function(req, res){
 		}
 	});
 });
-
 // replace the existing note of an article with a new one
 // or if no note exists for an article, make the posted note it's note.
 app.post('/articles/:id', function(req, res){

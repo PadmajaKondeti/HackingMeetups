@@ -5,63 +5,106 @@ $(document).on('ready', function (){
     // Attributes
     articles: [],
     currentArticle: 0,
-    imagesrc:["https://danceswithfat.files.wordpress.com/2011/08/victory.jpg", 
-          "http://s2.quickmeme.com/img/ea/eab5afc4bfb52ccd3656aa60daadafe63fc4b65147a15766b4d43ba96c89f20f.jpg",
-          "https://i.imgflip.com/g3lqz.jpg",
-          "http://s2.quickmeme.com/img/ac/ac449c4293b246b8662ddd0627279fcdaebe2c0d420f8838118235a81f47edc0.jpg",
-          "http://cf.chucklesnetwork.agj.co/items/5/5/9/6/0/one-does-not-simply-declare-victory-but-i-just-did.jpg",
-          "https://s-media-cache-ak0.pinimg.com/736x/e2/16/15/e2161543fb07fbef4f3b8748567fdbb1.jpg",
-          "https://cdn.meme.am/instances/48501883.jpg",
-          "http://lambopower.com/forum/uploads/monthly_06_2015/post-51915-1434235449.jpg"
-          ],
-    // Methods
+    //default images for the articles
+    imagesrc:["http://i.istockimg.com/file_thumbview_approve/65986455/6/stock-illustration-65986455-escritorio-ocupado.jpg", 
+             "http://image.shutterstock.com/display_pic_with_logo/253597/230705539/stock-photo-programming-code-abstract-screen-of-software-developer-computer-script-more-similar-in-my-230705539.jpg",
+             "http://image.shutterstock.com/display_pic_with_logo/253597/234597538/stock-photo-software-developer-programming-code-abstract-computer-script-code-blue-color-more-similar-in-234597538.jpg"
+    ],
+    scrapeArticle: function() {
+      // scrape the articles as a json
+      var self = this;
+      $.getJSON('/scrape', function(data) {
+      })
+      .done(function( data ) {
+          console.log("scraped data");
+          self.fetchArticle();
+      })
+      .fail(function(data){
+        console.log("scrape failed");
+      });
+    },
     fetchArticle: function() {
-      // grab the articles as a json
-      // display the first article
+      // grab the articles as a json and display the first article
       var self = this;
       $.getJSON('/articles', function(data) {
+        //scrape data if there is no data
+          if (data.length <= 0){
+           self.scrapeArticle();
+         } else {
           self.articles = data;
           // for each one
           self.showArticle();
-      });
-    },
-    //Scrape article
-    scrapeArticle: function() {
-      // grab the articles as a json
-      // display the first article
-      var self = this;
-      $.getJSON('/scrape', function(data) {
-          //self.articles = data;
-          // for each one
+        } ;       
       })
-      .done(function( data ) {
-          //self.fetchArticle();
-          console.log("scraped data");
+      .done(function(data){
+        console.log("retrieval of articles");
+      })
+      .fail(function(articles){
+        console.log("retrieval of articles failed");
       });
     },
+    // fetchArticle: function() {
+    //   var self = this;
+
+    //   // scrape the data from the website and load into the mongo DB
+    //   // self.scrape();
+    //   $.getJSON('/scrape', function(response) {
+    //   }).done(function(response) {
+
+    //     // grab the articles as a json
+    //     $.getJSON('/articles', function(articles) {
+    //     }).done(function(articles) {
+
+    //       // save the articles for later
+    //       // display the first article
+    //       self.articles = articles;
+    //       self.showArticle();
+
+    //     }).fail(function(articles){
+    //       console.log("failed to retrieve articles");
+    //     });
+
+    //   }).fail(function(data){
+    //     console.log("failed to scrape data");
+    //   });
+
+    // },
+
+
     showArticle: function() {
       // Display the current Article
-      var showimage=this.articles[this.currentArticle].image;
-    
-      if (showimage.indexOf('/img/journey/simple/no_photo') >= 0){
-            showimage = this.imagesrc[Math.floor(Math.random() * (this.imagesrc).length)];
-      };
-      var heading = "<div data-id='" + this.articles[this.currentArticle]._id +"'>"//+ "' background-image='" 
+      //debugger
+      if ((this.articles).length > 0){
+        console.log(this.currentArticle, this.articles[this.currentArticle].image)
+        var showimage=this.articles[this.currentArticle].image;  
+        //get a random image from images array if it is their local image 
+        if (showimage.indexOf('/img/journey/simple/no_photo') >= 0){
+              showimage = this.imagesrc[Math.floor(Math.random() * (this.imagesrc).length)];
+        } else {
+          showimage=this.articles[this.currentArticle].image;  
+        };
+        var articleContent = "<div data-id='" + this.articles[this.currentArticle]._id +"'>"
+        + '<h4>'+this.articles[this.currentArticle].title +'</h4>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
+        + "<img style='height: 50%; width: 100%; object-fit: contain' class='img-rounded' alt='article image' src ='" + showimage +"' /> </div>";
+        
+        console.log(articleContent);
+        
+        $('#articleLink').html('<h2><a target="_blank" href="'+this.articles[this.currentArticle].link+'">' +this.articles[this.currentArticle].title+'</h2>' );
+        $('#savenote').attr('data-id', this.articles[this.currentArticle]._id);
+        $('#deletenote').attr('data-id', this.articles[this.currentArticle]._id);
 
-     // + this.articles[this.currentArticle].image +"'> "
-      + '<h4>'+this.articles[this.currentArticle].title +'</h4>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
-      + "<img style='height: 100%; width: 100%; object-fit: contain' class='img-rounded' alt='article image' src ='" + showimage +"' /> </div>";
-      console.log(heading);
-      $('#articleLink').html('<h2><a target="_blank" href="'+this.articles[this.currentArticle].link+'">' +this.articles[this.currentArticle].title+'</h2>' );
-      $('#savenote').attr('data-id', this.articles[this.currentArticle]._id);
-      $('#deletenote').attr('data-id', this.articles[this.currentArticle]._id);
-      $('#article').html(heading);
-      getNotes(this.articles[this.currentArticle]._id);
+        //appending the article to the div - article
+        $('#article').html(articleContent);
+        getNotes(this.articles[this.currentArticle]._id);
+        //make the content visible
+        $("#articleContainer").css('visibility', 'visible');
+        //hide the scrape and start buttons
+        $(".scrapeShow").hide();
+      }
     },
     nextArticle: function() {
-      // Display the next article.  If there are no
-      // more articles, start at the beginning
-      this.currentArticle = this.currentArticle == this.articles.length ?
+      // Display the next article.  start from the beginning if there are no more articles, 
+      this.currentArticle = this.currentArticle == (this.articles.length-1) ?
         0 : this.currentArticle + 1;
       this.showArticle();
     }
@@ -129,8 +172,8 @@ $(document).on('ready', function (){
   // when user clicks the deleter button for a note
   $(document).on('click', '#deletenote', function(){
     // save the p tag that encloses the button
-   var selected = $(this).attr('data-id');
-   // var selected = $(this).parent();
+    var selected = $(this).attr('data-id');
+    // var selected = $(this).parent();
     console.log(selected);
     // make an AJAX GET request to delete the specific note 
     // this uses the data-id of the p-tag, which is linked to the specific note
@@ -156,18 +199,17 @@ $(document).on('ready', function (){
     $('#titleinput1').val("");
      $('#bodyinput1').val("");
   });
-  // when you click the savenote button
+  // to scrape data
   $(document).on('click', '#startScrape', function(){
     getArticles.scrapeArticle();
     $(".scrapeShow h3").text("View Details")
     $(this).hide();
   });
+  //to start showing the articles
   $(document).on('click', '#startNews', function(){
-    $("#articleContainer").css('visibility', 'visible');
-   // getArticles.scrapeArticle(); 
     getArticles.fetchArticle();
-    $(".scrapeShow").hide();
   });
+  //to get next article
   $(document).on('click', '#article', function(){
     getArticles.nextArticle();
   });
