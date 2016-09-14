@@ -71,6 +71,7 @@ textarea{
   visibility:hidden;
   position:absolute;
   margin:10px;
+
 }
 #notes {
 	float: left;  
@@ -135,4 +136,5 @@ display:block;
 .articleholder{
    border: 1px solid #eee;
    padding:10px;
+    clear:both;
 }

@@ -28,7 +28,7 @@ $(document).on('ready', function (){
       var self = this;
       $.getJSON('/articles', function(data) {
         //scrape data if there is no data
-          if (data.length <= 0){
+        if (data.length <= 0){
            self.scrapeArticle();
          } else {
           self.articles = data;
@@ -85,7 +85,7 @@ $(document).on('ready', function (){
         };
         var articleContent = "<div data-id='" + this.articles[this.currentArticle]._id +"'>"
         + '<h4>'+this.articles[this.currentArticle].title +'</h4>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
-        + "<img style='height: 50%; width: 100%; object-fit: contain' class='img-rounded' alt='article image' src ='" + showimage +"' /> </div>";
+        + "<img style='width: 100%;' class='img-rounded' alt='article image' src ='" + showimage +"' /> </div>";
         
         console.log(articleContent);
         

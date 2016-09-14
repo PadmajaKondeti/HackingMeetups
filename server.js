@@ -76,7 +76,7 @@ app.get('/scrape', function(req, res) {
 	              console.log('Already exists!');
 	          }else{
 	            // now, save that entry to the db
-	            entry.save({w:"majority"}, function(err, doc) {
+	            entry.save( function(err, doc) {
 	              // log any errors
 	              if (err) {
 	                console.log(err);
