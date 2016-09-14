@@ -1,15 +1,8 @@
 body{
-      /*background-color: #DECADE
-      background-color: #FCF5C7; */
-      background-color: #000000;
-      /*color: #ffffff;*/
+  background-color: #000000;
 }
-/*#wrapper{*/
 .container{
- 
   margin: 0 auto;
-  
-  /*background-image: url('http://www.freedigitalphotos.net/images/category-images/337.jpg')*/
 }
 .text-color{
   color: #eee; 
@@ -20,14 +13,8 @@ body{
   color:#eee;
 }
 #article{
-  /*width:50%;
-  height:50%;*/
   background-color: #000;
   color: #fff
-}
-
-  /*display:inline-block;  */
-  overflow: auto; 
 }
 #startnews{
   float:left;
@@ -36,30 +23,24 @@ body{
   color:'#fff';
 }
 #notes, #notes1 {
- /* width:30%;*/
   float:right;
 }
 textarea, input{
   display:block;
   width:100%;
   background-color: #FCF5C7;
-  /*background-color: #eee; */
 }
 input{
-  /*height:36px;*/
-  height:10%;
+  height:100%;
   font-size: 24px;
 }
 textarea{
-  /*height:200px;*/
   height:100%;
   font-size: 18px;
 }
-
 #notes.panel, #delNotes.panel{
   position: relative;
-  text-align: center;
-  margin
+  text-align: center; 
 }
 #titleinput1, #bodyinput1{
    background-color: #eee;
@@ -71,19 +52,15 @@ textarea{
   visibility:hidden;
   position:absolute;
   margin:10px;
-
 }
 #notes {
 	float: left;  
 	margin:10px;
-	/*border-style: solid;*/
+ /*clear:both; */
 }
 #delNotes {
-  /*float: right;   */
-  
-  /*border-style: solid;*/
+  /*    clear:both;*/
 }
-#
 #articleLink{
   text-align: center;
   color:#eee;
@@ -134,7 +111,18 @@ display:none;
 display:block;
 }
 .articleholder{
-   border: 1px solid #eee;
-   padding:10px;
-    clear:both;
+  border: 1px solid #eee;
+  padding:10px;
+  margin:10px;
+  /*clear:both;*/
+}
+
+#previousArticle{
+  float:left;
+}
+#nextArticle{
+  float:left;
+}
+.articleheading{
+  text-align:  center;
 }

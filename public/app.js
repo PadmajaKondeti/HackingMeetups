@@ -43,38 +43,21 @@ $(document).on('ready', function (){
         console.log("retrieval of articles failed");
       });
     },
-    // fetchArticle: function() {
-    //   var self = this;
-
-    //   // scrape the data from the website and load into the mongo DB
-    //   // self.scrape();
-    //   $.getJSON('/scrape', function(response) {
-    //   }).done(function(response) {
-
-    //     // grab the articles as a json
-    //     $.getJSON('/articles', function(articles) {
-    //     }).done(function(articles) {
-
-    //       // save the articles for later
-    //       // display the first article
-    //       self.articles = articles;
-    //       self.showArticle();
-
-    //     }).fail(function(articles){
-    //       console.log("failed to retrieve articles");
-    //     });
-
-    //   }).fail(function(data){
-    //     console.log("failed to scrape data");
-    //   });
-
-    // },
-
-
+    
     showArticle: function() {
       // Display the current Article
       //debugger
       if ((this.articles).length > 0){
+        if (this.currentArticle == 0){
+            $('#previousArticle').prop('disabled', true).removeClass('flat-primary-butt flat-outer-butt');
+            $('#nextArticle').prop('disabled', false).addClass('flat-primary-butt flat-outer-butt');
+        } else if (this.currentArticle == ((this.articles).length - 1)){
+          $('#nextArticle').prop('disabled', true).removeClass('flat-primary-butt flat-outer-butt');
+          $('#previousArticle').prop('disabled', false).addClass('flat-primary-butt flat-outer-butt');
+        } else {
+            $('#previousArticle').prop('disabled', false).addClass('flat-primary-butt flat-outer-butt');
+            $('#nextArticle').prop('disabled', false).addClass('flat-primary-butt flat-outer-butt');
+        }
         console.log(this.currentArticle, this.articles[this.currentArticle].image)
         var showimage=this.articles[this.currentArticle].image;  
         //get a random image from images array if it is their local image 
@@ -84,7 +67,8 @@ $(document).on('ready', function (){
           showimage=this.articles[this.currentArticle].image;  
         };
         var articleContent = "<div data-id='" + this.articles[this.currentArticle]._id +"'>"
-        + '<h4>'+this.articles[this.currentArticle].title +'</h4>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
+        + '<h4>'+this.articles[this.currentArticle].title +'</h4><hr>'//+"</div>" // this.articles[this.currentArticle].image + "</p>";
+        + '<p>' + this.articles[this.currentArticle].hackers +'</p>'
         + "<img style='width: 100%;' class='img-rounded' alt='article image' src ='" + showimage +"' /> </div>";
         
         console.log(articleContent);
@@ -106,6 +90,11 @@ $(document).on('ready', function (){
       // Display the next article.  start from the beginning if there are no more articles, 
       this.currentArticle = this.currentArticle == (this.articles.length-1) ?
         0 : this.currentArticle + 1;
+      this.showArticle();
+    },
+     previousArticle: function() {
+      // Display the next article.  start from the beginning if there are no more articles, 
+      this.currentArticle =  this.currentArticle - 1;
       this.showArticle();
     }
   };
@@ -202,8 +191,8 @@ $(document).on('ready', function (){
   // to scrape data
   $(document).on('click', '#startScrape', function(){
     getArticles.scrapeArticle();
-    $(".scrapeShow h3").text("View Details")
-    $(this).hide();
+    // $(".scrapeShow h3").text("View Details")
+    // $(this).hide();
   });
   //to start showing the articles
   $(document).on('click', '#startNews', function(){
@@ -212,5 +201,11 @@ $(document).on('ready', function (){
   //to get next article
   $(document).on('click', '#article', function(){
     getArticles.nextArticle();
+  });
+  $(document).on('click', '#nextArticle', function(){
+    getArticles.nextArticle();
+  });
+  $(document).on('click', '#previousArticle', function(){
+    getArticles.previousArticle();
   });
 });

@@ -20,6 +20,11 @@ var ArticleSchema = new Schema({
     type:String,
     //required:false
   },
+  // members 
+  hackers: {
+    type:String,
+    //required:false
+  },
   // this only saves one note's ObjectId. ref refers to the Note model.
   note: {
       type: Schema.Types.ObjectId,

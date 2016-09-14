@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" >
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -18,14 +19,22 @@
   <div class="row row-centered">
     <div class="well well-sm scrapeShow">
         <h3>Scare or View Web Page</h3>
-        <button class="flat-butt flat-primary-butt flat-outer-butt" id="startScrape" >StartScrape</button>
-        <button class="flat-butt flat-primary-butt flat-outer-butt" id="startNews" >Start</button>
+        <button class="flat-butt flat-primary-butt flat-outer-butt" id="startScrape" >Scrape</button>
+        <button class="flat-butt flat-primary-butt flat-outer-butt" id="startNews" >Start View</button>
     </div>
   </div>
 
   <br>
-  <div id="articleContainer" class="row row-centered  ">
-    <div id="articleLink"></div>
+  <div id="articleContainer" class="row row-centered">
+    <div class="row articleheading">
+      <div class="col-sm-3">
+          <button class="flat-butt flat-primary-butt flat-outer-butt" id="previousArticle" ><</button>
+      </div>
+      <div class="col-sm-6" id="articleLink"></div>
+      <div class="col-sm-3">
+        <button class="flat-butt flat-primary-butt flat-outer-butt" id="nextArticle" >></button>
+      </div>
+    </div>
     <br>
     <div class="col-sm-3">
       <div id="notes" class="panel">
@@ -37,7 +46,10 @@
     </div>
    
     <div class="col-sm-6 articleholder">
+    
+        
       <div id="article"></div>
+      
     </div>
   
     <div class="col-sm-3">
@@ -45,7 +57,7 @@
         <label for="titleinput1" class="panel-title">Delete Notes</label>
         <input id="titleinput1" name="title" disabled>
         <textarea id="bodyinput1" name="body" disabled></textarea>
-        <input  type="button" class="flat-butt flat-danger-butt flat-outer-butt" id="deletenote" value="Delete Note" >
+        <input  type="button" class="flat-butt flat-danger-butt flat-outer-butt" id="deletenote" value="Delete Note">
       </div>
     </div>
   </div>

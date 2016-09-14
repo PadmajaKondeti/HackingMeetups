@@ -61,6 +61,7 @@ app.get('/scrape', function(req, res) {
 	        // and save them as properties of the result obj
 	        result.title=$(this).find('h4').eq(0).text();
 	        result.link = $(this).children('a').attr('href');
+	        result.hackers = $(this).find('p').eq(0).text();
 	        var bg = $(this).children('a').css('background-image');
 	        bg = bg.replace('url(','').replace(')','').replace(/\"/gi, "");
 			result.image=bg;
