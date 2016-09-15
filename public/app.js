@@ -73,7 +73,7 @@ $(document).on('ready', function (){
         
         console.log(articleContent);
         
-        $('#articleLink').html('<h2><a target="_blank" href="'+this.articles[this.currentArticle].link+'">' +this.articles[this.currentArticle].title+'</h2>' );
+        $('#articleLink').html('<a target="_blank" href="'+this.articles[this.currentArticle].link+'">' +this.articles[this.currentArticle].title );
         $('#savenote').attr('data-id', this.articles[this.currentArticle]._id);
         $('#deletenote').attr('data-id', this.articles[this.currentArticle]._id);
 
