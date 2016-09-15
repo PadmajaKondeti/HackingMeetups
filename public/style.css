@@ -1,87 +1,72 @@
 body{
-      /*background-color: #DECADE
-      background-color: #FCF5C7; */
-      background-color: #000000;
-      /*color: #ffffff;*/
+  background-color: #000000;
 }
-/*#wrapper{*/
 .container{
   width:100%;
   margin: 0 auto;
-  
-  /*background-image: url('http://www.freedigitalphotos.net/images/category-images/337.jpg')*/
 }
 .text-color{
   color: #eee; 
+}
+flat-butt{
+  margin :2em;
 }
 .scrapeShow{
   border:none;
   background-color: #000;
   color:#eee;
 }
-#article{
-  /*width:50%;
-  height:50%;*/
-  background-color: #000;
-  color: #fff
-}
-
-  /*display:inline-block;  */
-  overflow: auto; 
-}
 #startnews{
   float:left;
+}
+#article{
+  background-color: #000;
+  color: #fff
 }
 #article p{
   color:'#fff';
 }
-#notes {
- /* width:30%;*/
-  float:right;
+.articleholder{
+   border: 1px solid #eee;
+   padding:5px;
+   margin: 5px 0px;
+   clear:right;
+}
+
+#articleContainer{
+  visibility:hidden;
+  margin-left: 5px;
+}
+
+#notes.panel, #delNotes.panel{  
+  text-align: center;
 }
 textarea, input{
   display:block;
   width:100%;
   background-color: #FCF5C7;
-  /*background-color: #eee; */
 }
 input{
   height:36px;
-  font-size: 24px;
+  font-size: 1.5em;
 }
 textarea{
   height:200px;
-  font-size: 18px;
-}
-
-#notes.panel, #delNotes.panel{
-  
-  text-align: center;
+  font-size: 1em;
 }
 #titleinput1, #bodyinput1{
    background-color: #eee;
 }
-#articles {
-	float:left;
-}
-#articleContainer{
-  visibility:hidden;
-}
 #notes {
-	/*float: left;*/
 	clear:both;
   width:100%;
-	/*border-style: solid;*/
 }
 #notes,#delNotes {
-  /*float: left;*/
   clear:both;
-  /*border-style: solid;*/
 }
 #delNotes {
-  /*float: left;*/
-  margin:10px;
-  /*border-style: solid;*/
+  width:100%;
+  /*margin-left:-10px;*/
 }
 .articleheading{
   text-align: center;
@@ -90,12 +75,12 @@ textarea{
   color:#eee;
 }
 #previousArticle{
-    float:left;
-    /*right:0;*/
+  float:left;
+  margin-left: 3em;
 }
 #nextArticle{
-  float: right;
-  /*left:0;*/
+  float:right;
+  margin-right: 3em;
 }
 .flat-butt {
   display: inline-block;
@@ -141,9 +126,4 @@ display:none;
 }
 .show{
 display:block;
-}
-.articleholder{
-   border: 1px solid #eee;
-   padding:5px;
-   clear:right;
 }
